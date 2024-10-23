@@ -1,11 +1,12 @@
+<!--- 
 __________.___        ________         .___ 
 \______   \   | ____  \_____  \ ______ |   |
  |    |  _/   |/    \  /   |   \\____ \|   |
  |    |   \   |   |  \/    |    \  |_> >   |
  |______  /___|___|  /\_______  /   __/|___|
         \/         \/         \/|__|        
-
-Bayesian Inference for  Optical Interferometry
+--->
+BInOpI: Bayesian Inference for  Optical Interferometry
 
 
 Dependencies : numpy, scipy, matplotlib, emcee, oivis, astropy, corner
