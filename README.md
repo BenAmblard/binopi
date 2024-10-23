@@ -1,0 +1,1 @@
+Dependencies : numpy, scipy, matplotlib, emcee, oivis, astropy, corner

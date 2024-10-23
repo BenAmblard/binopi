@@ -1,0 +1,5 @@
+setup.py
+binopi.egg-info/PKG-INFO
+binopi.egg-info/SOURCES.txt
+binopi.egg-info/dependency_links.txt
+binopi.egg-info/top_level.txt
