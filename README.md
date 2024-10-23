@@ -1,15 +1,12 @@
-OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
-O                                                O
-OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
-O  __________.___        ________         .___   O
-O  \______   \   | ____  \_____  \ ______ |   |  O
-O   |    |  _/   |/    \  /   |   \\____ \|   |  O
-O   |    |   \   |   |  \/    |    \  |_> >   |  O
-O   |______  /___|___|  /\_______  /   __/|___|  O
-O          \/         \/         \/|__|          O
-OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
-O Bayesian Inference for  Optical Interferometry O
-OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+__________.___        ________         .___ 
+\______   \   | ____  \_____  \ ______ |   |
+ |    |  _/   |/    \  /   |   \\____ \|   |
+ |    |   \   |   |  \/    |    \  |_> >   |
+ |______  /___|___|  /\_______  /   __/|___|
+        \/         \/         \/|__|        
+
+Bayesian Inference for  Optical Interferometry
+
 
 Dependencies : numpy, scipy, matplotlib, emcee, oivis, astropy, corner
 
