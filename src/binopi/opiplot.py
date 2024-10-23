@@ -11,6 +11,7 @@ import corner
 import copy
 from fpdf import FPDF
 from math import log10, floor
+from scipy.special import j0
 
 
 def find_exp(number) -> int:
@@ -542,3 +543,25 @@ def fitReport(savepath, data, mcmc_sampler, model, keys, refwave = 2.15e-6):
     create_page(pdf, savepath)
     pdf.output('ajustements.pdf','F')
     
+
+def abaqPlot(data):
+    fig = plt.figure(figsize=(16,9))
+    axvis2 = plt.subplot(2,1,1)
+    axuvcov = plt.subplot(2,2,3, projection = 'polar')
+    axt3phi = plt.subplot(2,2,4)
+    plot_vis2(data, axvis2, scale = 'freq', type = 'errorbars')
+    plot_t3phi(data, axt3phi, scale = 'freq', type = 'errorbars')
+    plot_uvcov(data, axuvcov, scale = 'freq')
+
+    sizes = np.arange(1,10,1)
+    kernels = np.array([0.2,0.5, 1, 2])*constants.arcsec/1000
+    xabaq = np.arange(0,axvis2.get_xlim()[1], 0.1)
+    for size in sizes:
+        yabaq = j0(2*np.pi*(xabaq*1e6)*(size*constants.arcsec/1000))#*np.exp(-2 * np.pi * kernels[2] / np.sqrt(3) * (xabaq*1e6))
+        yabaq = yabaq**2
+        axvis2.plot(xabaq, yabaq, label = 'Ring radius = {} mas'.format(size))
+
+
+    plt.tight_layout()
+    axvis2.legend()
+    plt.show()

@@ -1,6 +1,5 @@
-vis_modulated_ring;1:POSANG$= 2.435_{-0.060}^{0.060}x10^{0}$
-vis_modulated_ring;1:RADIUS$= 4.644_{-0.286}^{0.286}x10^{-9}$
-vis_modulated_ring;1:RINGRADIUS$= 1.436_{-0.036}^{0.036}x10^{-8}$
-vis_modulated_ring;1:ERATIO$= 1.285_{-0.034}^{0.034}x10^{0}$
-vis_modulated_ring;1:CM$= 2.895_{-0.347}^{0.347}x10^{-1}$
-vis_modulated_ring;1:SM$= -3.008_{-0.398}^{0.398}x10^{-1}$
+vis_modulated_ring;1:POSANG$= 2.436_{-0.095}^{0.095}x10^{0}$
+vis_modulated_ring;1:FLUX$= 9.456_{-0.208}^{0.208}x10^{-1}$
+vis_modulated_ring;1:RADIUS$= 4.729_{-1.003}^{1.003}x10^{-9}$
+vis_modulated_ring;1:RINGRADIUS$= 1.423_{-0.090}^{0.090}x10^{-8}$
+vis_modulated_ring;1:ERATIO$= 1.269_{-0.096}^{0.096}x10^{0}$

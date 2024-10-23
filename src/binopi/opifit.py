@@ -11,15 +11,7 @@ import emcee
 
 def residuals(theta, model: opiparams.Model, keys, fitdata, refwave = 2.15e-6, cp_fit = False):
 
-    for i in range(len(keys)):
-        if model.type[keys[i]] == float:
-            model.params[keys[i]] = theta[i] 
-        elif model.type[keys[i]] == list:
-            model.params[keys[i]].append(theta[i])
-            model.params[keys[i]].pop(0)
-        else:
-            print('Wrong type')
-            return
+    model.modifyParams(keys, theta)
 
     ucoord = fitdata.v2data['UCOORD']
     vcoord = fitdata.v2data['VCOORD']
@@ -124,20 +116,24 @@ def master_leastSquares(model: opiparams.Model, data, n_it, refwave = 2.15e-6, c
 ####################
 
 def log_prior(theta, model: opiparams.Model, keys):
-    #keys = np.unique(keys)
+    
+    thetadic = {}
     for i in range(len(keys)):
-        #print(keys[i])
+        thetadic[keys[i]] = theta[i]
+
+    for i in range(len(keys)):
         if model.free[keys[i]]:
             if model.type[keys[i]] == float:
                 if not(model.limits[keys[i]][0] <= theta[i] <= model.limits[keys[i]][1]):
                     return -np.inf
             elif model.type[keys[i]] == list:
-                for j in range(len(model.params[keys[i]])): #???
+                for j in range(len(model.params[keys[i]])):
                     if not(model.limits[keys[i]][0][j] <= theta[i] <= model.limits[keys[i]][1][j]):
                         return -np.inf
             else:
                 print('Wrong type')
                 return  
+
     if not( (-10 < theta[-1] < 1) and (-10 < theta[-2] < 1) ):
         return -np.inf
     return 0.0
@@ -145,15 +141,8 @@ def log_prior(theta, model: opiparams.Model, keys):
 
 def log_likelihood(theta, model: opiparams.Model, keys, fitdata, refwave = 2.15e-6, cp_fit = True):
 
-    for i in range(len(keys)):
-        if model.type[keys[i]] == float:
-            model.params[keys[i]] = theta[i] 
-        elif model.type[keys[i]] == list:
-            model.params[keys[i]].append(theta[i])
-            model.params[keys[i]].pop(0)
-        else:
-            print('Wrong type')
-            return
+    model.modifyParams(keys, theta)
+
     log_f,log_g = theta[-2:]
 
     ucoord = fitdata.v2data['UCOORD']
@@ -194,7 +183,7 @@ def log_likelihood(theta, model: opiparams.Model, keys, fitdata, refwave = 2.15e
     llcp = -0.5 * (np.sum((llcpresiduals) ** 2 / llcpsigma2 + np.log(llcpsigma2)))
     return llv2 + cp_fit*llcp
 
-
+# TODO : add log_prior and likelihood as parameters to allow the use of custom ones
 def log_probability(theta, model: opiparams.Model, keys, fitdata, refwave = 2.15e-6, cp_fit = False):
     
     lp = log_prior(theta, model, keys)
@@ -207,20 +196,12 @@ def log_probability(theta, model: opiparams.Model, keys, fitdata, refwave = 2.15
 
 def fit_mcmc(nsteps, nwalkers, model: opiparams.Model, fitdata, refwave = 2.15e-6, cp_fit = False):
     freekeys = [key for key in model.free.keys() if model.free[key]]
-    bounds = ([],[])
-    x0 = []
     keys = []
     for key in freekeys:
             print(key)
             if model.type[key] == float:
-                min = model.limits[key][0]
-                max = model.limits[key][1]
-                bounds[0].append(min)
-                bounds[1].append(max)
-                x0.append(opiutils.randInterval(min,max))
                 keys.append(key)
-            elif model.type[key] == list:  
-                x0 += model.params[key]
+            elif model.type[key] == list:
                 keys += [key]*len(model.params[key])
             else:
                 print('This parameter is either of the wrong type or cannot be fitted')
@@ -234,9 +215,9 @@ def fit_mcmc(nsteps, nwalkers, model: opiparams.Model, fitdata, refwave = 2.15e-
         pos = []
         for key in freekeys:
                 if model.type[key] == float:
-                    pos.append(opiutils.randGauss(model.limits[key][0], model.limits[key][1], model.params[key], spread = 10))
+                    pos.append(opiutils.randGauss(model.params[key]))
                 if model.type[key] == list:
-                    pos += [opiutils.randGauss(model.limits[key][0][i], model.limits[key][1][i], model.params[key][i], spread = 10) for i in range(len(model.params[key]))]
+                    pos += [opiutils.randGauss(model.params[key][i]) for i in range(len(model.params[key]))]
         return pos + [opiutils.randInterval(-10, 0), opiutils.randInterval(-10, 0)]
 
     pos = np.array([tuple(randpos(model))  for _ in range(nwalkers)])

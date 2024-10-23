@@ -24,8 +24,8 @@ def teff_to_spi(teff, refwave):
 def randInterval(low, up):
     return low + (up - low)*np.random.random()
 
-def randGauss(low, up, mid, spread = 4):
-    return np.random.normal(mid, (up-low)/spread)
+def randGauss(mid, spread = 1e-2):
+    return np.random.normal(mid, mid*spread)
 
 def importOIFits(fileDirectory, recursive = True):
     """ Imports all .fits files in fileDirectory, 
